@@ -31,6 +31,12 @@
             font-size: 28px;
         }
 
+        h2 {
+            color: #1e3a8a;
+            font-size: 22px;
+            margin-top: 0;
+        }
+
         p {
             font-size: 18px;
             line-height: 1.6;
@@ -53,6 +59,56 @@
         .site-link:hover {
             text-decoration: underline;
         }
+
+        /* --- MINI GAME STYLES --- */
+        .game-box {
+            background-color: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .game-input {
+            font-size: 18px;
+            padding: 8px 12px;
+            width: 100px;
+            text-align: center;
+            border: 2px solid #94a3b8;
+            border-radius: 6px;
+            margin-right: 8px;
+        }
+
+        .btn {
+            font-size: 16px;
+            padding: 9px 16px;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-reset {
+            background-color: #64748b;
+            margin-top: 10px;
+        }
+
+        .btn-reset:hover {
+            background-color: #475569;
+        }
+
+        #game-message {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 12px;
+            color: #1e3a8a;
+        }
     </style>
 </head>
 <body>
@@ -65,11 +121,13 @@
         <!-- Fixed image tag -->
         <img src="sayan-nath-jPhKQCTu3R4-unsplash.jpg" alt="A scenic view of mountains during sunset" class="featured-image">
 
-        <p>
-            Check out one of my favorite resource sites: 
-            <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" class="site-link">Visit Wikipedia</a>
-        </p>
-    </div>
+        <!-- MINI GAME BOX -->
+        <div class="game-box">
+            <h2>🎯 Guess the Secret Number!</h2>
+            <p>I am thinking of a secret number between 1 and 100. Can you guess it?</p>
+            
+            <input type="number" id="guess-input" class="game-input" min="1" max="100" placeholder="1-100">
+            <button onclick="checkGuess()" class="btn">Guess</button>
 
-</body>
-</html>
+            <div id="game-message"></div>
+            <button onclick="resetGame()" id="reset-btn" class="
