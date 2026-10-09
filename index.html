@@ -70,18 +70,19 @@
         }
 
         .game-input {
-            font-size: 18px;
-            padding: 8px 12px;
-            width: 100px;
+            font-size: 16px;
+            padding: 10px 12px;
+            width: 220px;
+            max-width: 80%;
             text-align: center;
             border: 2px solid #94a3b8;
             border-radius: 6px;
-            margin-right: 8px;
+            margin-bottom: 10px;
         }
 
         .btn {
             font-size: 16px;
-            padding: 9px 16px;
+            padding: 10px 18px;
             background-color: #1e3a8a;
             color: white;
             border: none;
@@ -95,19 +96,28 @@
         }
 
         .btn-reset {
-            background-color: #64748b;
-            margin-top: 10px;
+            background-color: #16a34a;
+            margin-top: 12px;
         }
 
         .btn-reset:hover {
-            background-color: #475569;
+            background-color: #15803d;
+        }
+
+        #hint-text {
+            font-style: italic;
+            font-weight: 500;
+            color: #1e3a8a;
+            background-color: #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 12px 0;
         }
 
         #game-message {
             font-weight: bold;
             font-size: 18px;
             margin-top: 12px;
-            color: #1e3a8a;
         }
     </style>
 </head>
@@ -121,13 +131,91 @@
         <!-- Fixed image tag -->
         <img src="sayan-nath-jPhKQCTu3R4-unsplash.jpg" alt="A scenic view of mountains during sunset" class="featured-image">
 
-        <!-- MINI GAME BOX -->
+        <!-- NFL GAME BOX -->
         <div class="game-box">
-            <h2>🎯 Guess the Secret Number!</h2>
-            <p>I am thinking of a secret number between 1 and 100. Can you guess it?</p>
+            <h2>🏈 NFL Team Guesser</h2>
+            <p>Can you guess the NFL team based on the clue below?</p>
             
-            <input type="number" id="guess-input" class="game-input" min="1" max="100" placeholder="1-100">
-            <button onclick="checkGuess()" class="btn">Guess</button>
+            <div id="hint-text">Loading clue...</div>
+
+            <div>
+                <input type="text" id="guess-input" class="game-input" placeholder="Type team name (e.g. Chiefs)...">
+            </div>
+            <button onclick="checkGuess()" class="btn">Submit Guess</button>
 
             <div id="game-message"></div>
-            <button onclick="resetGame()" id="reset-btn" class="
+            <button onclick="nextTeam()" id="reset-btn" class="btn btn-reset" style="display: none;">Next Team 🏈</button>
+        </div>
+
+        <p>
+            Check out one of my favorite resource sites: 
+            <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" class="site-link">Visit Wikipedia</a>
+        </p>
+    </div>
+
+    <!-- JAVASCRIPT NFL GAME CODE -->
+    <script>
+        // List of NFL teams, keywords accepted as correct answers, and hints
+        const nflTeams = [
+            { name: "Kansas City Chiefs", keywords: ["chiefs", "kansas city"], hint: "Red & gold team home to Patrick Mahomes!" },
+            { name: "Dallas Cowboys", keywords: ["cowboys", "dallas"], hint: "Has a blue star logo on their helmet and is known as 'America's Team'!" },
+            { name: "Green Bay Packers", keywords: ["packers", "green bay"], hint: "Green & yellow team whose fans wear cheeseheads at Lambeau Field!" },
+            { name: "Philadelphia Eagles", keywords: ["eagles", "philadelphia", "philly"], hint: "Green jersey with an eagle mascot, famous for 'Fly Eagles Fly'!" },
+            { name: "San Francisco 49ers", keywords: ["49ers", "niners", "san francisco"], hint: "Gold & red team named after the 1849 California Gold Rush!" },
+            { name: "Buffalo Bills", keywords: ["bills", "buffalo"], hint: "Blue & red team famous for Josh Allen and 'Bills Mafia'!" },
+            { name: "Miami Dolphins", keywords: ["dolphins", "miami"], hint: "Aqua & orange team featuring an ocean mammal on their helmets!" },
+            { name: "Pittsburgh Steelers", keywords: ["steelers", "pittsburgh"], hint: "Black & yellow team with a logo on only one side of their helmet!" },
+            { name: "Seattle Seahawks", keywords: ["seahawks", "seattle"], hint: "Navy & neon green team famous for their '12th Man' home crowd!" },
+            { name: "Las Vegas Raiders", keywords: ["raiders", "las vegas"], hint: "Silver & black team featuring an eyepatch pirate logo!" }
+        ];
+
+        let currentIndex = 0;
+
+        function loadTeam() {
+            // Pick a random team from the list
+            currentIndex = Math.floor(Math.random() * nflTeams.length);
+            const currentTeam = nflTeams[currentIndex];
+            
+            document.getElementById("hint-text").textContent = "💡 Clue: " + currentTeam.hint;
+            document.getElementById("game-message").textContent = "";
+            document.getElementById("guess-input").value = "";
+            document.getElementById("reset-btn").style.display = "none";
+        }
+
+        function checkGuess() {
+            const input = document.getElementById("guess-input");
+            const message = document.getElementById("game-message");
+            const resetBtn = document.getElementById("reset-btn");
+            const userGuess = input.value.trim().toLowerCase();
+            const currentTeam = nflTeams[currentIndex];
+
+            if (userGuess === "") {
+                message.textContent = "⚠️ Please type a team name first!";
+                message.style.color = "#dc2626";
+                return;
+            }
+
+            // Check if user's input matches any accepted keyword or team name
+            const isCorrect = currentTeam.keywords.some(keyword => userGuess.includes(keyword));
+
+            if (isCorrect) {
+                message.textContent = `🎉 Correct! It's the ${currentTeam.name}!`;
+                message.style.color = "#16a34a";
+                resetBtn.style.display = "inline-block";
+            } else {
+                message.textContent = "❌ Not quite! Try another guess.";
+                message.style.color = "#dc2626";
+            }
+        }
+
+        function nextTeam() {
+            loadTeam();
+            document.getElementById("guess-input").focus();
+        }
+
+        // Start game with a clue when the page loads
+        loadTeam();
+    </script>
+
+</body>
+</html>
