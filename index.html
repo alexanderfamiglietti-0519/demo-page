@@ -123,37 +123,49 @@
 </head>
 <body>
 
+    <!-- Main container box that centers all content on the screen -->
     <div class="container">
+        <!-- Main title of the website -->
         <h1>Welcome to Web Development Class</h1>
 
+        <!-- Introductory paragraph describing the project -->
         <p>This is my very first webpage built with HTML and CSS, hosted live on GitHub Pages!</p>
 
-        <!-- Fixed image tag -->
+        <!-- Main image uploaded to the GitHub repository -->
         <img src="sayan-nath-jPhKQCTu3R4-unsplash.jpg" alt="A scenic view of mountains during sunset" class="featured-image">
 
-        <!-- NFL GAME BOX -->
+        <!-- Container for the NFL Team Guesser mini game -->
         <div class="game-box">
+            <!-- Game title heading -->
             <h2>🏈 NFL Team Guesser</h2>
+            <!-- Game instructions -->
             <p>Can you guess the NFL team based on the clue below?</p>
             
+            <!-- Box where the clue is dynamically loaded by JavaScript -->
             <div id="hint-text">Loading clue...</div>
 
+            <!-- Wrapper for user input box -->
             <div>
+                <!-- Text input field for typing team names -->
                 <input type="text" id="guess-input" class="game-input" placeholder="Type team name (e.g. Chiefs)...">
             </div>
+            <!-- Clickable button to submit the user's guess -->
             <button onclick="checkGuess()" class="btn">Submit Guess</button>
 
+            <!-- Text area displaying whether the guess was correct or wrong -->
             <div id="game-message"></div>
+            <!-- Hidden button that appears when correct to load the next team -->
             <button onclick="nextTeam()" id="reset-btn" class="btn btn-reset" style="display: none;">Next Team 🏈</button>
         </div>
 
+        <!-- External link section opening Wikipedia in a new tab -->
         <p>
             Check out one of my favorite resource sites: 
             <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" class="site-link">Visit Wikipedia</a>
         </p>
     </div>
 
-    <!-- JAVASCRIPT NFL GAME CODE -->
+    <!-- Script section containing JavaScript code for game logic -->
     <script>
         // List of NFL teams, keywords accepted as correct answers, and hints
         const nflTeams = [
