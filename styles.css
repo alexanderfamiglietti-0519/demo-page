@@ -1,0 +1,227 @@
+/* ==========================================================================
+   NFL Stadium Theme - styles.css
+   Theme: Deep Navy Blue, Royal Blue, Electric Blue & Crisp White
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Variables & Color Palette
+   -------------------------------------------------------------------------- */
+:root {
+  /* Blue & White Palette */
+  --color-primary-dark: #050b14;
+  --color-navy: #0a192f;
+  --color-blue-dark: #002244;
+  --color-royal-blue: #0033a0;
+  --color-electric-blue: #0072ce;
+  --color-blue-light: #418bca;
+  --color-white: #ffffff;
+  --color-offwhite: #f4f7fa;
+  --color-silver: #c0c0c0;
+  --color-steel: #1e293b;
+  --color-turf-green: #1b4d2e;
+  --color-turf-light: #28633c;
+
+  /* Typography */
+  --font-heading: 'Impact', 'Teko', 'Montserrat', sans-serif;
+  --font-body: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-digital: 'Courier New', Courier, monospace;
+
+  /* Stadium Glows & Shadows */
+  --shadow-stadium-light: 0 0 30px rgba(0, 114, 206, 0.6), 0 0 60px rgba(255, 255, 255, 0.4);
+  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.4);
+  --glow-blue: 0 0 15px rgba(0, 114, 206, 0.8);
+  --glow-led: 0 0 8px #00f0ff;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Global Reset & Stadium Background
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-primary-dark);
+  background-image: 
+    radial-gradient(circle at 50% 10%, rgba(0, 114, 206, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 10% 50%, rgba(0, 51, 160, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 50%, rgba(0, 51, 160, 0.15) 0%, transparent 40%),
+    linear-gradient(180deg, #050b14 0%, #0a192f 100%);
+  color: var(--color-offwhite);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--color-electric-blue);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-white);
+}
+
+/* --------------------------------------------------------------------------
+   3. Dynamic Floodlights & Stadium Light Beams
+   -------------------------------------------------------------------------- */
+.stadium-lighting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 450px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.light-tower {
+  position: absolute;
+  top: -20px;
+  width: 120px;
+  height: 20px;
+  background: var(--color-white);
+  box-shadow: var(--shadow-stadium-light);
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.light-tower.left { left: 10%; }
+.light-tower.right { right: 10%; }
+
+.light-beam {
+  position: absolute;
+  top: 0;
+  width: 320px;
+  height: 650px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(0, 114, 206, 0.05) 70%, transparent 100%);
+  filter: blur(20px);
+  transform-origin: top center;
+  animation: pulseLight 4s infinite alternate ease-in-out;
+}
+
+.light-beam.left {
+  left: 5%;
+  transform: rotate(-25deg);
+}
+
+.light-beam.right {
+  right: 5%;
+  transform: rotate(25deg);
+  animation-delay: 2s;
+}
+
+@keyframes pulseLight {
+  0% { opacity: 0.6; }
+  100% { opacity: 0.95; }
+}
+
+/* --------------------------------------------------------------------------
+   4. Glassmorphism Navigation Bar
+   -------------------------------------------------------------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background: rgba(10, 25, 47, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--color-electric-blue);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nfl-logo {
+  height: 48px;
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+  transition: transform var(--transition-fast);
+}
+
+.nfl-logo:hover {
+  transform: scale(1.08);
+}
+
+.site-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-white);
+  text-shadow: 0 0 10px rgba(0, 114, 206, 0.8);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--color-offwhite);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: var(--color-electric-blue);
+  transition: all var(--transition-normal);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  background: rgba(0, 114, 206, 0.2);
+  color: var(--color-white);
+  border: 1px solid rgba(0, 114, 206, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   5. Jumbotron / LED Stadium Scoreboard
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+  z-index: 2;
+}
+
+.jumbotron {
+  max-width: 900px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #0a111a 0%, #152238 100%);
+  border: 4px solid var(--color-electric-blue);
+  border-radius: 12px;
+  box-shadow: 0 0 35px rgba(0, 114, 206, 0.4), inset 0 0 15px rgba(0, 0, 0, 0.8
