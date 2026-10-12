@@ -1,286 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Development Class Project</title>
-    <style>
-        /* Modern reset and subtle gradient background */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 50%, #e2e8f0 100%);
-            color: #1e293b;
-            margin: 0;
-            padding: 40px 20px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            box-sizing: border-box;
-        }
-
-        /* Elevated card design with soft shadow and top accent bar */
-        .container {
-            background-color: #ffffff;
-            max-width: 600px;
-            width: 100%;
-            padding: 40px 32px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-            border-top: 6px solid #2563eb;
-            text-align: center;
-            transition: transform 0.2s ease;
-        }
-
-        /* Clean typography hierarchy */
-        h1 {
-            color: #1e3a8a;
-            margin-top: 0;
-            margin-bottom: 12px;
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        h2 {
-            color: #1e3a8a;
-            font-size: 22px;
-            margin-top: 28px;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        p {
-            font-size: 17px;
-            line-height: 1.65;
-            color: #475569;
-            margin: 12px 0;
-        }
-
-        /* Featured Image styling with soft shadow and hover effect */
-        .featured-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .featured-image:hover {
-            transform: scale(1.01);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Interactive Link styling */
-        .site-link {
-            color: #2563eb;
-            font-weight: 600;
-            text-decoration: none;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background-color: #eff6ff;
-            transition: all 0.2s ease;
-        }
-
-        .site-link:hover {
-            color: #1d4ed8;
-            background-color: #dbeafe;
-            text-decoration: underline;
-        }
-
-        /* --- MINI GAME STYLES --- */
-        .game-box {
-            background-color: #f8fafc;
-            border: 2px dashed #cbd5e1;
-            border-radius: 14px;
-            padding: 24px;
-            margin: 28px 0;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .game-input {
-            font-size: 16px;
-            padding: 12px 16px;
-            width: 240px;
-            max-width: 85%;
-            text-align: center;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .game-input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        /* Modern interactive buttons with hover animations */
-        .btn {
-            font-size: 16px;
-            padding: 11px 22px;
-            background-color: #1e3a8a;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            background-color: #2563eb;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-reset {
-            background-color: #16a34a;
-            margin-top: 14px;
-            box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
-        }
-
-        .btn-reset:hover {
-            background-color: #15803d;
-            box-shadow: 0 4px 8px rgba(21, 128, 61, 0.3);
-        }
-
-        /* Clue Box Badge */
-        #hint-text {
-            font-style: normal;
-            font-weight: 500;
-            color: #1e3a8a;
-            background-color: #eff6ff;
-            border-left: 4px solid #2563eb;
-            padding: 12px 16px;
-            border-radius: 6px;
-            margin: 16px 0;
-            text-align: left;
-            font-size: 15px;
-        }
-
-        #game-message {
-            font-weight: 700;
-            font-size: 18px;
-            margin-top: 14px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFL Stadium Experience</title>
+  <!-- Google Fonts for Stadium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Main container box that centers all content on the screen -->
-    <div class="container">
-        <!-- Main title of the website -->
-        <h1>Welcome to Web Development Class</h1>
+  <!-- Stadium Floodlighting Effect -->
+  <div class="stadium-lighting">
+    <div class="light-tower left"></div>
+    <div class="light-beam left"></div>
+    <div class="light-tower right"></div>
+    <div class="light-beam right"></div>
+  </div>
 
-        <!-- Introductory paragraph describing the project -->
-        <p>This is my very first webpage built with HTML and CSS, hosted live on GitHub Pages!</p>
+  <!-- Glassmorphism Navbar -->
+  <nav class="navbar">
+    <div class="logo-container">
+      <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/National_Football_League_logo.svg" alt="NFL Logo" class="nfl-logo">
+      <span class="site-title">GRIDIRON PARK</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active">Home</a></li>
+      <li><a href="#" class="nav-link">Gameday</a></li>
+      <li><a href="#" class="nav-link">Tickets</a></li>
+      <li><a href="#" class="nav-link">Gallery</a></li>
+      <li><a href="#" class="nav-link">Schedule</a></li>
+    </ul>
+  </nav>
 
-        <!-- Main image uploaded to the GitHub repository -->
-        <img src="sayan-nath-jPhKQCTu3R4-unsplash.jpg" alt="A scenic view of mountains during sunset" class="featured-image">
-
-        <!-- Container for the NFL Team Guesser mini game -->
-        <div class="game-box">
-            <!-- Game title heading -->
-            <h2>🏈 NFL Team Guesser</h2>
-            <!-- Game instructions -->
-            <p>Can you guess the NFL team based on the clue below?</p>
-            
-            <!-- Box where the clue is dynamically loaded by JavaScript -->
-            <div id="hint-text">Loading clue...</div>
-
-            <!-- Wrapper for user input box -->
-            <div>
-                <!-- Text input field for typing team names -->
-                <input type="text" id="guess-input" class="game-input" placeholder="Type team name (e.g. Chiefs)...">
-            </div>
-            <!-- Clickable button to submit the user's guess -->
-            <button onclick="checkGuess()" class="btn">Submit Guess</button>
-
-            <!-- Text area displaying whether the guess was correct or wrong -->
-            <div id="game-message"></div>
-            <!-- Hidden button that appears when correct to load the next team -->
-            <button onclick="nextTeam()" id="reset-btn" class="btn btn-reset" style="display: none;">Next Team 🏈</button>
+  <!-- Stadium Jumbotron & LED Scoreboard -->
+  <header class="hero">
+    <div class="jumbotron">
+      <div class="scoreboard">
+        
+        <!-- Home Team -->
+        <div class="team-box">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Dallas_Cowboys_helmet_left.png" alt="Cowboys Logo" class="team-logo">
+          <span class="team-name">COWBOYS</span>
+          <span class="score">28</span>
         </div>
 
-        <!-- External link section opening Wikipedia in a new tab -->
-        <p>
-            Check out one of my favorite resource sites: 
-            <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" class="site-link">Visit Wikipedia</a>
-        </p>
-        <h2> Alec is a goofy</h2>
-    <p>I know this because of the way he looks and is...</p>
+        <!-- Game Clock & Quarter -->
+        <div class="game-info">
+          <span class="quarter-time">Q4 02:15</span>
+          <span class="game-status">4TH & 2 AT THE 35</span>
+        </div>
+
+        <!-- Away Team -->
+        <div class="team-box">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Indianapolis_Colts_helmet_left.png" alt="Colts Logo" class="team-logo">
+          <span class="team-name">COLTS</span>
+          <span class="score">24</span>
+        </div>
+
+      </div>
     </div>
-    <!-- Script section containing JavaScript code for game logic -->
-    <script>
-        // List of NFL teams, keywords accepted as correct answers, and hints
-        const nflTeams = [
-            { name: "Kansas City Chiefs", keywords: ["chiefs", "kansas city"], hint: "Red & gold team home to Patrick Mahomes!" },
-            { name: "Dallas Cowboys", keywords: ["cowboys", "dallas"], hint: "Has a blue star logo on their helmet and is known as 'America's Team'!" },
-            { name: "Green Bay Packers", keywords: ["packers", "green bay"], hint: "Green & yellow team whose fans wear cheeseheads at Lambeau Field!" },
-            { name: "Philadelphia Eagles", keywords: ["eagles", "philadelphia", "philly"], hint: "Green jersey with an eagle mascot, famous for 'Fly Eagles Fly'!" },
-            { name: "San Francisco 49ers", keywords: ["49ers", "niners", "san francisco"], hint: "Gold & red team named after the 1849 California Gold Rush!" },
-            { name: "Buffalo Bills", keywords: ["bills", "buffalo"], hint: "Blue & red team famous for Josh Allen and 'Bills Mafia'!" },
-            { name: "Miami Dolphins", keywords: ["dolphins", "miami"], hint: "Aqua & orange team featuring an ocean mammal on their helmets!" },
-            { name: "Pittsburgh Steelers", keywords: ["steelers", "pittsburgh"], hint: "Black & yellow team with a logo on only one side of their helmet!" },
-            { name: "Seattle Seahawks", keywords: ["seahawks", "seattle"], hint: "Navy & neon green team famous for their '12th Man' home crowd!" },
-            { name: "Las Vegas Raiders", keywords: ["raiders", "las vegas"], hint: "Silver & black team featuring an eyepatch pirate logo!" }
-        ];
+  </header>
 
-        let currentIndex = 0;
+  <!-- 3D Perspective Football Field -->
+  <section class="stadium-arena-container">
+    <div class="football-field">
+      
+      <!-- Left Endzone -->
+      <div class="endzone left">
+        <span class="endzone-text">COWBOYS</span>
+      </div>
 
-        function loadTeam() {
-            // Pick a random team from the list
-            currentIndex = Math.floor(Math.random() * nflTeams.length);
-            const currentTeam = nflTeams[currentIndex];
-            
-            document.getElementById("hint-text").textContent = "💡 Clue: " + currentTeam.hint;
-            document.getElementById("game-message").textContent = "";
-            document.getElementById("guess-input").value = "";
-            document.getElementById("reset-btn").style.display = "none";
-        }
+      <!-- Yard Grid -->
+      <div class="field-grid">
+        <span class="yard-number top" style="left: 20%;">20</span>
+        <span class="yard-number bottom" style="left: 20%;">20</span>
 
-        function checkGuess() {
-            const input = document.getElementById("guess-input");
-            const message = document.getElementById("game-message");
-            const resetBtn = document.getElementById("reset-btn");
-            const userGuess = input.value.trim().toLowerCase();
-            const currentTeam = nflTeams[currentIndex];
+        <span class="yard-number top fifty-mark">50</span>
+        <span class="yard-number bottom fifty-mark">50</span>
 
-            if (userGuess === "") {
-                message.textContent = "⚠️ Please type a team name first!";
-                message.style.color = "#dc2626";
-                return;
-            }
+        <span class="yard-number top" style="right: 20%;">20</span>
+        <span class="yard-number bottom" style="right: 20%;">20</span>
 
-            // Check if user's input matches any accepted keyword or team name
-            const isCorrect = currentTeam.keywords.some(keyword => userGuess.includes(keyword));
+        <div class="fifty-yard-line"></div>
+        <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/National_Football_League_logo.svg" alt="NFL Shield" class="center-field-logo">
+      </div>
 
-            if (isCorrect) {
-                message.textContent = `🎉 Correct! It's the ${currentTeam.name}!`;
-                message.style.color = "#16a34a";
-                resetBtn.style.display = "inline-block";
-            } else {
-                message.textContent = "❌ Not quite! Try another guess.";
-                message.style.color = "#dc2626";
-            }
-        }
+      <!-- Right Endzone -->
+      <div class="endzone right">
+        <span class="endzone-text">COLTS</span>
+      </div>
 
-        function nextTeam() {
-            loadTeam();
-            document.getElementById("guess-input").focus();
-        }
+    </div>
+  </section>
 
-        // Start game with a clue when the page loads
-        loadTeam();
-    </script>
+  <!-- Live LED Ticker Bar -->
+  <div class="ticker-wrapper">
+    <div class="ticker-content">
+      <div class="ticker-item"><span class="ticker-tag">LIVE</span> COWBOYS 28 - 24 COLTS | 4TH QTR 2:15</div>
+      <div class="ticker-item"><span class="ticker-tag">UPDATE</span> PASS COMPLETE FOR 22 YARDS TO THE 35 YARD LINE</div>
+      <div class="ticker-item"><span class="ticker-tag">ATTENDANCE</span> 80,000 FANS PACKING THE STADIUM TONIGHT</div>
+      <div class="ticker-item"><span class="ticker-tag">FINAL</span> BILLS 31 - 17 PATRIOTS</div>
+      <!-- Duplicate for infinite smooth scrolling loop -->
+      <div class="ticker-item"><span class="ticker-tag">LIVE</span> COWBOYS 28 - 24 COLTS | 4TH QTR 2:15</div>
+      <div class="ticker-item"><span class="ticker-tag">UPDATE</span> PASS COMPLETE FOR 22 YARDS TO THE 35 YARD LINE</div>
+      <div class="ticker-item"><span class="ticker-tag">ATTENDANCE</span> 80,000 FANS PACKING THE STADIUM TONIGHT</div>
+      <div class="ticker-item"><span class="ticker-tag">FINAL</span> BILLS 31 - 17 PATRIOTS</div>
+    </div>
+  </div>
+
+  <!-- Gallery & Media Grid -->
+  <main class="main-container">
+    <h2 class="section-title">STADIUM HIGHLIGHTS & MATCHES</h2>
+
+    <div class="card-grid">
+
+      <!-- Card 1 -->
+      <article class="nfl-card">
+        <div class="card-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1566577739112-5180d4bf9390?auto=format&fit=crop&w=800&q=80" alt="NFL Stadium Lights">
+          <span class="card-badge">Stadium View</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">PRIMETIME UNDER THE LIGHTS</h3>
+          <p class="card-description">Experience the roaring atmosphere under the stadium floodlights with over 80,000 screaming football fans.</p>
+          <a href="#" class="btn-primary">Explore Seats</a>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="nfl-card">
+        <div class="card-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?auto=format&fit=crop&w=800&q=80" alt="Football Action">
+          <span class="card-badge">Game Action</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">THE GRIDIRON SHOWDOWN</h3>
+          <p class="card-description">Two top-tier rivals battle line-by-line for dominance on the 50-yard line in a championship preview match.</p>
+          <a href="#" class="btn-primary">Watch Replay</a>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="nfl-card">
+        <div class="card-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1628891890467-b79f2c8ba9dc?auto=format&fit=crop&w=800&q=80" alt="Official NFL Football">
+          <span class="card-badge">Equipment</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">THE OFFICIAL LEATHER</h3>
+          <p class="card-description">Get an up-close look at the game ball, built for precision spiral passes and clutch game-winning field goals.</p>
+          <a href="#" class="btn-primary">Read More</a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/National_Football_League_logo.svg" alt="NFL Shield" class="footer-logo">
+      <ul class="footer-links">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Stadium Map</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+      <p class="copyright">&copy; 2026 Gridiron Park Stadium. All rights reserved.</p>
+    </div>
+  </footer>
 
 </body>
 </html>
