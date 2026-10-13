@@ -1,0 +1,42 @@
+/* ==========================================================================
+   NFL Stadium Interactive Engine - script.js
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Interactive Navigation Link Selector
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+
+  // 2. Dynamic Scoreboard Quarter Clock
+  const quarterTimeElement = document.querySelector('.quarter-time');
+  if (quarterTimeElement) {
+    let totalSeconds = 135; // Starts at 02:15
+    const clockInterval = setInterval(() => {
+      if (totalSeconds <= 0) {
+        clearInterval(clockInterval);
+        quarterTimeElement.textContent = "Q4 00:00";
+        return;
+      }
+      totalSeconds--;
+      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+      const seconds = String(totalSeconds % 60).padStart(2, '0');
+      quarterTimeElement.textContent = `Q4 ${minutes}:${seconds}`;
+    }, 1000);
+  }
+
+  // 3. Highlight Card Button Click Interactions
+  const cardButtons = document.querySelectorAll('.btn-primary');
+  cardButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      const cardTitle = button.closest('.nfl-card')?.querySelector('.card-title')?.textContent || 'Feature';
+      alert(`Opening ${cardTitle}...`);
+    });
+  });
+});
