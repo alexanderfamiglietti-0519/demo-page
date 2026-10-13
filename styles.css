@@ -1,45 +1,34 @@
 /* ==========================================================================
-   NFL Stadium Theme - styles.css
-   Theme: Deep Navy Blue, Royal Blue, Electric Blue & Crisp White
+   NFL Stadium Arcade Theme - styles.css
+   Theme: Deep Navy, Royal Blue, Electric Neon Blue & Crisp White
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. CSS Variables & Color Palette
-   -------------------------------------------------------------------------- */
 :root {
-  /* Blue & White Palette */
   --color-primary-dark: #050b14;
   --color-navy: #0a192f;
   --color-blue-dark: #002244;
   --color-royal-blue: #0033a0;
   --color-electric-blue: #0072ce;
-  --color-blue-light: #418bca;
+  --color-neon-cyan: #00f0ff;
   --color-white: #ffffff;
   --color-offwhite: #f4f7fa;
   --color-silver: #c0c0c0;
-  --color-steel: #1e293b;
+  --color-gold: #ffcc00;
   --color-turf-green: #1b4d2e;
   --color-turf-light: #28633c;
 
-  /* Typography */
-  --font-heading: 'Impact', 'Teko', 'Montserrat', sans-serif;
-  --font-body: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-digital: 'Courier New', Courier, monospace;
+  --font-heading: 'Impact', 'Montserrat', sans-serif;
+  --font-body: 'Segoe UI', Roboto, sans-serif;
+  --font-digital: 'Courier New', monospace;
 
-  /* Stadium Glows & Shadows */
   --shadow-stadium-light: 0 0 30px rgba(0, 114, 206, 0.6), 0 0 60px rgba(255, 255, 255, 0.4);
-  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.4);
-  --glow-blue: 0 0 15px rgba(0, 114, 206, 0.8);
-  --glow-led: 0 0 8px #00f0ff;
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.6);
+  --glow-led: 0 0 10px var(--color-neon-cyan);
 
-  /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --------------------------------------------------------------------------
-   2. Global Reset & Stadium Background
-   -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -49,9 +38,9 @@
 body {
   background-color: var(--color-primary-dark);
   background-image: 
-    radial-gradient(circle at 50% 10%, rgba(0, 114, 206, 0.25) 0%, transparent 60%),
-    radial-gradient(circle at 10% 50%, rgba(0, 51, 160, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 50%, rgba(0, 51, 160, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 10%, rgba(0, 114, 206, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 10% 50%, rgba(0, 51, 160, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 90% 50%, rgba(0, 51, 160, 0.2) 0%, transparent 40%),
     linear-gradient(180deg, #050b14 0%, #0a192f 100%);
   color: var(--color-offwhite);
   font-family: var(--font-body);
@@ -60,18 +49,8 @@ body {
   overflow-x: hidden;
 }
 
-a {
-  color: var(--color-electric-blue);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-white);
-}
-
 /* --------------------------------------------------------------------------
-   3. Dynamic Floodlights & Stadium Light Beams
+   Lighting Effects
    -------------------------------------------------------------------------- */
 .stadium-lighting {
   position: absolute;
@@ -103,22 +82,14 @@ a:hover {
   top: 0;
   width: 320px;
   height: 650px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(0, 114, 206, 0.05) 70%, transparent 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(0, 114, 206, 0.05) 70%, transparent 100%);
   filter: blur(20px);
   transform-origin: top center;
   animation: pulseLight 4s infinite alternate ease-in-out;
 }
 
-.light-beam.left {
-  left: 5%;
-  transform: rotate(-25deg);
-}
-
-.light-beam.right {
-  right: 5%;
-  transform: rotate(25deg);
-  animation-delay: 2s;
-}
+.light-beam.left { left: 5%; transform: rotate(-25deg); }
+.light-beam.right { right: 5%; transform: rotate(25deg); animation-delay: 2s; }
 
 @keyframes pulseLight {
   0% { opacity: 0.6; }
@@ -126,14 +97,14 @@ a:hover {
 }
 
 /* --------------------------------------------------------------------------
-   4. Glassmorphism Navigation Bar
+   Navbar
    -------------------------------------------------------------------------- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  background: rgba(10, 25, 47, 0.85);
+  background: rgba(10, 25, 47, 0.9);
   backdrop-filter: blur(12px);
   border-bottom: 2px solid var(--color-electric-blue);
   position: sticky;
@@ -149,79 +120,340 @@ a:hover {
 }
 
 .nfl-logo {
-  height: 48px;
-  width: auto;
+  height: 44px;
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
-  transition: transform var(--transition-fast);
-}
-
-.nfl-logo:hover {
-  transform: scale(1.08);
 }
 
 .site-title {
   font-family: var(--font-heading);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   letter-spacing: 2px;
-  text-transform: uppercase;
   color: var(--color-white);
-  text-shadow: 0 0 10px rgba(0, 114, 206, 0.8);
+  text-shadow: 0 0 10px var(--color-electric-blue);
 }
 
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .nav-link {
   color: var(--color-offwhite);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.95rem;
-  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 4px;
-  position: relative;
+  text-decoration: none;
+  transition: all var(--transition-fast);
 }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 3px;
-  background-color: var(--color-electric-blue);
-  transition: all var(--transition-normal);
-  transform: translateX(-50%);
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-  width: 100%;
-}
-
-.nav-link.active {
-  background: rgba(0, 114, 206, 0.2);
+.nav-link:hover, .nav-link.active {
+  background: rgba(0, 114, 206, 0.3);
   color: var(--color-white);
-  border: 1px solid rgba(0, 114, 206, 0.4);
+  border: 1px solid var(--color-electric-blue);
 }
 
 /* --------------------------------------------------------------------------
-   5. Jumbotron / LED Stadium Scoreboard
+   Jumbotron Scoreboard
    -------------------------------------------------------------------------- */
 .hero {
   position: relative;
-  padding: 4rem 2rem 3rem;
+  padding: 2.5rem 1.5rem 1.5rem;
   text-align: center;
   z-index: 2;
 }
 
 .jumbotron {
-  max-width: 900px;
+  max-width: 850px;
   margin: 0 auto;
   background: linear-gradient(135deg, #0a111a 0%, #152238 100%);
-  border: 4px solid var(--color-electric-blue);
+  border: 3px solid var(--color-electric-blue);
   border-radius: 12px;
-  box-shadow: 0 0 35px rgba(0, 114, 206, 0.4), inset 0 0 15px rgba(0, 0, 0, 0.8
+  box-shadow: 0 0 35px rgba(0, 114, 206, 0.4);
+  padding: 1.5rem;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.team-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-logo {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+}
+
+.team-name {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--color-white);
+}
+
+.score {
+  font-family: var(--font-digital);
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-neon-cyan);
+  text-shadow: var(--glow-led);
+  background: #040910;
+  padding: 0.1rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.quarter-time {
+  font-family: var(--font-digital);
+  font-size: 1.5rem;
+  color: #ff3366;
+  background: #040910;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.game-status {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-silver);
+}
+
+/* --------------------------------------------------------------------------
+   Mini-Game Layouts
+   -------------------------------------------------------------------------- */
+.main-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.game-card {
+  background: linear-gradient(145deg, #0d1b2a, #1b263b);
+  border: 2px solid rgba(0, 114, 206, 0.5);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: var(--shadow-card);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.game-title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--color-white);
+  letter-spacing: 1px;
+}
+
+.game-stats {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--color-neon-cyan);
+  font-weight: bold;
+}
+
+.game-instructions {
+  color: var(--color-silver);
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+/* --- Mini-Game 1: Field Goal Arena --- */
+.kick-field-container {
+  position: relative;
+  height: 260px;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--color-turf-green) 0px,
+    var(--color-turf-green) 30px,
+    var(--color-turf-light) 30px,
+    var(--color-turf-light) 60px
+  );
+  border: 4px solid var(--color-white);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.goal-posts {
+  position: relative;
+  width: 140px;
+  height: 100px;
+  margin-top: 10px;
+}
+
+.crossbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: var(--color-gold);
+}
+
+.upright {
+  position: absolute;
+  bottom: 0;
+  width: 6px;
+  height: 100px;
+  background: var(--color-gold);
+}
+
+.upright.left { left: 0; }
+.upright.right { right: 0; }
+
+.kick-ball {
+  font-size: 2rem;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.aim-meter-container {
+  position: relative;
+  width: 80%;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid var(--color-white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.target-zone {
+  position: absolute;
+  left: 40%;
+  width: 20%;
+  height: 100%;
+  background: var(--color-electric-blue);
+  box-shadow: 0 0 10px var(--color-neon-cyan);
+}
+
+.aim-needle {
+  position: absolute;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: #ff3366;
+  box-shadow: 0 0 8px #ff3366;
+}
+
+/* --- Mini-Game 2: QB Target Arena --- */
+.qb-arena {
+  position: relative;
+  height: 260px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-turf-green) 0px,
+    var(--color-turf-green) 40px,
+    var(--color-turf-light) 40px,
+    var(--color-turf-light) 80px
+  );
+  border: 4px solid var(--color-white);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.target-receiver {
+  position: absolute;
+  font-size: 2.2rem;
+  display: none;
+  user-select: none;
+  transition: transform 0.1s ease;
+}
+
+.target-receiver:active {
+  transform: scale(0.8);
+}
+
+.arena-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-white);
+  text-shadow: 0 0 10px #000;
+  pointer-events: none;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-royal-blue), var(--color-electric-blue));
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  padding: 0.75rem 1.8rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 114, 206, 0.4);
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-electric-blue), #2596be);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 114, 206, 0.6);
+}
+
+.btn-game {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.footer {
+  background: #040911;
+  border-top: 3px solid var(--color-electric-blue);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.footer-logo {
+  height: 40px;
+  margin-bottom: 0.5rem;
+}
+
+.copyright {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+  .scoreboard { grid-template-columns: 1fr; }
+  .game-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}
