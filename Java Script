@@ -3,40 +3,329 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Interactive Navigation Link Selector
+  // ------------------------------------------------------------------------
+  // 1. Dynamic Scoreboard & Game Clock Controller
+  // ------------------------------------------------------------------------
+  let clockTime = 135; // Seconds remaining (02:15)
+  let isClockRunning = true;
+  let clockInterval = null;
+
+  const clockDisplay = document.querySelector('.quarter-time');
+  const homeScoreEl = document.querySelectorAll('.team-box .score')[0];
+  const awayScoreEl = document.querySelectorAll('.team-box .score')[1];
+  const gameStatusEl = document.querySelector('.game-status');
+
+  function updateClockDisplay() {
+    if (!clockDisplay) return;
+    const minutes = String(Math.floor(clockTime / 60)).padStart(2, '0');
+    const seconds = String(clockTime % 60).padStart(2, '0');
+    clockDisplay.textContent = `Q4 ${minutes}:${seconds}`;
+  }
+
+  function startClock() {
+    if (clockInterval) clearInterval(clockInterval);
+    clockInterval = setInterval(() => {
+      if (clockTime <= 0) {
+        clearInterval(clockInterval);
+        isClockRunning = false;
+        if (clockDisplay) clockDisplay.textContent = "Q4 00:00 - FINAL";
+        return;
+      }
+      clockTime--;
+      updateClockDisplay();
+    }, 1000);
+  }
+
+  // Start clock on page load
+  startClock();
+
+  // Create Scoreboard Control Panel UI dynamically
+  const scoreboardContainer = document.querySelector('.jumbotron');
+  if (scoreboardContainer) {
+    const controlsDiv = document.createElement('div');
+    controlsDiv.className = 'scoreboard-controls';
+    controlsDiv.style.cssText = `
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    `;
+
+    controlsDiv.innerHTML = `
+      <button id="btn-home-score" class="btn-control">+ Touchdown Cowboys (+6)</button>
+      <button id="btn-away-score" class="btn-control">+ Touchdown Colts (+6)</button>
+      <button id="btn-toggle-clock" class="btn-control">Pause Clock</button>
+      <button id="btn-reset-clock" class="btn-control">Reset Clock</button>
+    `;
+
+    scoreboardContainer.appendChild(controlsDiv);
+
+    // Apply control button styling
+    const controlButtons = controlsDiv.querySelectorAll('.btn-control');
+    controlButtons.forEach(btn => {
+      btn.style.cssText = `
+        background: rgba(0, 114, 206, 0.25);
+        border: 1px solid #0072ce;
+        color: #ffffff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        transition: all 0.2s ease;
+      `;
+      btn.addEventListener('mouseover', () => btn.style.background = '#0072ce');
+      btn.addEventListener('mouseout', () => btn.style.background = 'rgba(0, 114, 206, 0.25)');
+    });
+
+    // Scoreboard Event Listeners
+    document.getElementById('btn-home-score').addEventListener('click', () => {
+      if (homeScoreEl) {
+        const current = parseInt(homeScoreEl.textContent, 10) || 0;
+        homeScoreEl.textContent = current + 6;
+        triggerScoreGlow(homeScoreEl);
+      }
+    });
+
+    document.getElementById('btn-away-score').addEventListener('click', () => {
+      if (awayScoreEl) {
+        const current = parseInt(awayScoreEl.textContent, 10) || 0;
+        awayScoreEl.textContent = current + 6;
+        triggerScoreGlow(awayScoreEl);
+      }
+    });
+
+    const toggleClockBtn = document.getElementById('btn-toggle-clock');
+    toggleClockBtn.addEventListener('click', () => {
+      if (isClockRunning) {
+        clearInterval(clockInterval);
+        isClockRunning = false;
+        toggleClockBtn.textContent = 'Resume Clock';
+      } else {
+        startClock();
+        isClockRunning = true;
+        toggleClockBtn.textContent = 'Pause Clock';
+      }
+    });
+
+    document.getElementById('btn-reset-clock').addEventListener('click', () => {
+      clockTime = 135;
+      updateClockDisplay();
+      if (!isClockRunning) {
+        startClock();
+        isClockRunning = true;
+        toggleClockBtn.textContent = 'Pause Clock';
+      }
+    });
+  }
+
+  function triggerScoreGlow(element) {
+    element.style.color = '#ffffff';
+    element.style.textShadow = '0 0 20px #00f0ff, 0 0 30px #00f0ff';
+    setTimeout(() => {
+      element.style.color = '#00f0ff';
+      element.style.textShadow = '0 0 8px #00f0ff';
+    }, 1000);
+  }
+
+  // ------------------------------------------------------------------------
+  // 2. Interactive Football Field Play Simulator
+  // ------------------------------------------------------------------------
+  const fieldGrid = document.querySelector('.field-grid');
+  if (fieldGrid) {
+    // Add clickable football marker
+    const ballMarker = document.createElement('div');
+    ballMarker.id = 'football-marker';
+    ballMarker.style.cssText = `
+      position: absolute;
+      top: 50%;
+      left: 35%;
+      width: 24px;
+      height: 16px;
+      background: #8b4513;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      transition: left 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      cursor: pointer;
+      z-index: 10;
+    `;
+    ballMarker.title = "Click anywhere on field to move ball";
+    fieldGrid.appendChild(ballMarker);
+
+    // Interactive Field Clicks
+    fieldGrid.addEventListener('click', (e) => {
+      const rect = fieldGrid.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = Math.max(5, Math.min(95, (clickX / rect.width) * 100));
+      
+      ballMarker.style.left = `${percentage}%`;
+
+      // Calculate approximate yard line
+      let yardLine = Math.round((percentage / 100) * 100);
+      let displayYard = yardLine <= 50 ? yardLine : 100 - yardLine;
+      let side = yardLine <= 50 ? 'COWBOYS' : 'COLTS';
+
+      if (gameStatusEl) {
+        gameStatusEl.textContent = `BALL ON THE ${side} ${displayYard} YARD LINE`;
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 3. Dynamic Modal Engine for Card Buttons
+  // ------------------------------------------------------------------------
+  createModalStructure();
+
+  const modal = document.getElementById('stadium-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+  const modalClose = document.getElementById('modal-close');
+
+  const cardButtons = document.querySelectorAll('.btn-primary');
+  cardButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      const card = button.closest('.nfl-card');
+      const title = card?.querySelector('.card-title')?.textContent || 'Stadium Feature';
+      
+      openModal(title);
+    });
+  });
+
+  function createModalStructure() {
+    if (document.getElementById('stadium-modal')) return;
+
+    const modalMarkup = document.createElement('div');
+    modalMarkup.id = 'stadium-modal';
+    modalMarkup.style.cssText = `
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 11, 20, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    `;
+
+    modalMarkup.innerHTML = `
+      <div style="
+        background: linear-gradient(145deg, #0d1b2a, #1b263b);
+        border: 2px solid #0072ce;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 100%;
+        padding: 2rem;
+        box-shadow: 0 0 30px rgba(0, 114, 206, 0.5);
+        color: #ffffff;
+        position: relative;
+        animation: modalSlide 0.3s ease-out forwards;
+      ">
+        <button id="modal-close" style="
+          position: absolute;
+          top: 12px;
+          right: 16px;
+          background: none;
+          border: none;
+          color: #ffffff;
+          font-size: 1.5rem;
+          cursor: pointer;
+        ">&times;</button>
+        <h3 id="modal-title" style="font-family: 'Impact', sans-serif; font-size: 1.8rem; margin-bottom: 1rem; color: #00f0ff;">Modal Title</h3>
+        <div id="modal-body" style="font-size: 0.95rem; line-height: 1.6; color: #f4f7fa; margin-bottom: 1.5rem;">
+          Modal Content
+        </div>
+        <button id="modal-action-btn" style="
+          width: 100%;
+          background: linear-gradient(135deg, #0033a0, #0072ce);
+          color: #ffffff;
+          border: none;
+          padding: 10px;
+          font-weight: bold;
+          text-transform: uppercase;
+          border-radius: 6px;
+          cursor: pointer;
+        ">Confirm Selection</button>
+      </div>
+    `;
+
+    document.body.appendChild(modalMarkup);
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    modalMarkup.addEventListener('click', (e) => {
+      if (e.target === modalMarkup) closeModal();
+    });
+    document.getElementById('modal-action-btn').addEventListener('click', () => {
+      alert("Action Confirmed!");
+      closeModal();
+    });
+  }
+
+  function openModal(title) {
+    const modalEl = document.getElementById('stadium-modal');
+    const titleEl = document.getElementById('modal-title');
+    const bodyEl = document.getElementById('modal-body');
+
+    titleEl.textContent = title;
+
+    if (title.includes('LIGHTS') || title.includes('SEATS')) {
+      bodyEl.innerHTML = `
+        <p>Select your stadium seating tier below:</p>
+        <ul style="list-style: none; padding: 0; margin-top: 10px;">
+          <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">🏈 <strong>50-Yard Line Club:</strong> $350</li>
+          <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">🏟️ <strong>Lower Level Endzone:</strong> $180</li>
+          <li style="padding: 8px 0;">📣 <strong>Upper Deck Panorama:</strong> $85</li>
+        </ul>
+      `;
+    } else if (title.includes('SHOWDOWN') || title.includes('REPLAY')) {
+      bodyEl.innerHTML = `
+        <p>Now loading HD Game Highlights for the 4th Quarter drive...</p>
+        <div style="background: #050b14; height: 120px; display: flex; align-items: center; justify-content: center; margin-top: 10px; border-radius: 6px; border: 1px solid #0072ce;">
+          <span style="color: #00f0ff; font-weight: bold;">▶ PLAYING HIGH-DEFINITION REPLAY</span>
+        </div>
+      `;
+    } else {
+      bodyEl.innerHTML = `
+        <p>Official NFL Wilson Duke Game Ball specs:</p>
+        <p style="margin-top: 8px; color: #c0c0c0;">Crafted with genuine leather, precision laces, and official team stampings.</p>
+      `;
+    }
+
+    modalEl.style.display = 'flex';
+  }
+
+  function closeModal() {
+    const modalEl = document.getElementById('stadium-modal');
+    if (modalEl) modalEl.style.display = 'none';
+  }
+
+  // ------------------------------------------------------------------------
+  // 4. Interactive Navigation Switcher
+  // ------------------------------------------------------------------------
   const navLinks = document.querySelectorAll('.nav-link');
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       navLinks.forEach(l => l.classList.remove('active'));
       link.classList.add('active');
-    });
-  });
 
-  // 2. Dynamic Scoreboard Quarter Clock
-  const quarterTimeElement = document.querySelector('.quarter-time');
-  if (quarterTimeElement) {
-    let totalSeconds = 135; // Starts at 02:15
-    const clockInterval = setInterval(() => {
-      if (totalSeconds <= 0) {
-        clearInterval(clockInterval);
-        quarterTimeElement.textContent = "Q4 00:00";
-        return;
+      const targetText = link.textContent.trim().toLowerCase();
+      if (targetText === 'gameday' || targetText === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (targetText === 'tickets' || targetText === 'gallery') {
+        document.querySelector('.main-container')?.scrollIntoView({ behavior: 'smooth' });
+      } else if (targetText === 'schedule') {
+        const ticker = document.querySelector('.ticker-wrapper');
+        ticker?.scrollIntoView({ behavior: 'smooth' });
       }
-      totalSeconds--;
-      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-      const seconds = String(totalSeconds % 60).padStart(2, '0');
-      quarterTimeElement.textContent = `Q4 ${minutes}:${seconds}`;
-    }, 1000);
-  }
-
-  // 3. Highlight Card Button Click Interactions
-  const cardButtons = document.querySelectorAll('.btn-primary');
-  cardButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      const cardTitle = button.closest('.nfl-card')?.querySelector('.card-title')?.textContent || 'Feature';
-      alert(`Opening ${cardTitle}...`);
     });
   });
 });
