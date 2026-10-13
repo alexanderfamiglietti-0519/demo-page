@@ -3,19 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NFL Stadium Experience</title>
-  <!-- Google Fonts for Stadium Typography -->
+  <title>Gridiron Arcade - Stadium Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
-  <!-- JavaScript File -->
   <script src="script.js" defer></script>
 </head>
 <body>
 
-  <!-- Stadium Floodlighting Effect -->
+  <!-- Dynamic Stadium Lighting Overlay -->
   <div class="stadium-lighting">
     <div class="light-tower left"></div>
     <div class="light-beam left"></div>
@@ -23,156 +20,106 @@
     <div class="light-beam right"></div>
   </div>
 
-  <!-- Glassmorphism Navbar -->
+  <!-- Navigation Header -->
   <nav class="navbar">
     <div class="logo-container">
       <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/National_Football_League_logo.svg" alt="NFL Logo" class="nfl-logo">
-      <span class="site-title">GRIDIRON PARK</span>
+      <span class="site-title">GRIDIRON STADIUM ARCADE</span>
     </div>
     <ul class="nav-links">
-      <li><a href="#" class="nav-link active">Home</a></li>
-      <li><a href="#" class="nav-link">Gameday</a></li>
-      <li><a href="#" class="nav-link">Tickets</a></li>
-      <li><a href="#" class="nav-link">Gallery</a></li>
-      <li><a href="#" class="nav-link">Schedule</a></li>
+      <li><a href="#hero-scoreboard" class="nav-link active">Scoreboard</a></li>
+      <li><a href="#mini-game-1" class="nav-link">Field Goal Kicker</a></li>
+      <li><a href="#mini-game-2" class="nav-link">QB Target Pass</a></li>
     </ul>
   </nav>
 
-  <!-- Stadium Jumbotron & LED Scoreboard -->
-  <header class="hero">
+  <!-- Jumbotron Scoreboard -->
+  <header class="hero" id="hero-scoreboard">
     <div class="jumbotron">
       <div class="scoreboard">
         
-        <!-- Home Team -->
         <div class="team-box">
           <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Dallas_Cowboys_helmet_left.png" alt="Cowboys Logo" class="team-logo">
           <span class="team-name">COWBOYS</span>
-          <span class="score">28</span>
+          <span class="score" id="cowboys-score">28</span>
         </div>
 
-        <!-- Game Clock & Quarter -->
         <div class="game-info">
-          <span class="quarter-time">Q4 02:15</span>
-          <span class="game-status">4TH & 2 AT THE 35</span>
+          <span class="quarter-time" id="game-clock">Q4 02:15</span>
+          <span class="game-status" id="game-status">PLAY ARCADE MINI-GAMES BELOW</span>
         </div>
 
-        <!-- Away Team -->
         <div class="team-box">
           <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Indianapolis_Colts_helmet_left.png" alt="Colts Logo" class="team-logo">
           <span class="team-name">COLTS</span>
-          <span class="score">24</span>
+          <span class="score" id="colts-score">24</span>
         </div>
 
       </div>
     </div>
   </header>
 
-  <!-- 3D Perspective Football Field -->
-  <section class="stadium-arena-container">
-    <div class="football-field">
-      
-      <!-- Left Endzone -->
-      <div class="endzone left">
-        <span class="endzone-text">COWBOYS</span>
-      </div>
-
-      <!-- Yard Grid -->
-      <div class="field-grid">
-        <span class="yard-number top" style="left: 20%;">20</span>
-        <span class="yard-number bottom" style="left: 20%;">20</span>
-
-        <span class="yard-number top fifty-mark">50</span>
-        <span class="yard-number bottom fifty-mark">50</span>
-
-        <span class="yard-number top" style="right: 20%;">20</span>
-        <span class="yard-number bottom" style="right: 20%;">20</span>
-
-        <div class="fifty-yard-line"></div>
-        <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/National_Football_League_logo.svg" alt="NFL Shield" class="center-field-logo">
-      </div>
-
-      <!-- Right Endzone -->
-      <div class="endzone right">
-        <span class="endzone-text">COLTS</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Live LED Ticker Bar -->
-  <div class="ticker-wrapper">
-    <div class="ticker-content">
-      <div class="ticker-item"><span class="ticker-tag">LIVE</span> COWBOYS 28 - 24 COLTS | 4TH QTR 2:15</div>
-      <div class="ticker-item"><span class="ticker-tag">UPDATE</span> PASS COMPLETE FOR 22 YARDS TO THE 35 YARD LINE</div>
-      <div class="ticker-item"><span class="ticker-tag">ATTENDANCE</span> 80,000 FANS PACKING THE STADIUM TONIGHT</div>
-      <div class="ticker-item"><span class="ticker-tag">FINAL</span> BILLS 31 - 17 PATRIOTS</div>
-      <!-- Duplicate for infinite smooth scrolling loop -->
-      <div class="ticker-item"><span class="ticker-tag">LIVE</span> COWBOYS 28 - 24 COLTS | 4TH QTR 2:15</div>
-      <div class="ticker-item"><span class="ticker-tag">UPDATE</span> PASS COMPLETE FOR 22 YARDS TO THE 35 YARD LINE</div>
-      <div class="ticker-item"><span class="ticker-tag">ATTENDANCE</span> 80,000 FANS PACKING THE STADIUM TONIGHT</div>
-      <div class="ticker-item"><span class="ticker-tag">FINAL</span> BILLS 31 - 17 PATRIOTS</div>
-    </div>
-  </div>
-
-  <!-- Gallery & Media Grid -->
+  <!-- Mini-Games Arena Container -->
   <main class="main-container">
-    <h2 class="section-title">STADIUM HIGHLIGHTS & MATCHES</h2>
 
-    <div class="card-grid">
+    <!-- GAME 1: FIELD GOAL KICKER -->
+    <section class="game-section" id="mini-game-1">
+      <div class="game-card">
+        <div class="game-header">
+          <h2 class="game-title">🏈 MINI-GAME 1: FIELD GOAL KICKER</h2>
+          <div class="game-stats">
+            <span>Score: <strong id="fg-score">0</strong></span>
+            <span>Attempts: <strong id="fg-attempts">5</strong></span>
+          </div>
+        </div>
+        <p class="game-instructions">Time your kick! Stop the moving aim needle in the center highlight zone to score 3 points.</p>
 
-      <!-- Card 1 -->
-      <article class="nfl-card">
-        <div class="card-image-wrapper">
-          <img src="https://images.unsplash.com/photo-1566577739112-5180d4bf9390?auto=format&fit=crop&w=800&q=80" alt="NFL Stadium Lights">
-          <span class="card-badge">Stadium View</span>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">PRIMETIME UNDER THE LIGHTS</h3>
-          <p class="card-description">Experience the roaring atmosphere under the stadium floodlights with over 80,000 screaming football fans.</p>
-          <a href="#" class="btn-primary">Explore Seats</a>
-        </div>
-      </article>
+        <div class="kick-field-container">
+          <div class="goal-posts">
+            <div class="crossbar"></div>
+            <div class="upright left"></div>
+            <div class="upright right"></div>
+          </div>
 
-      <!-- Card 2 -->
-      <article class="nfl-card">
-        <div class="card-image-wrapper">
-          <img src="https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?auto=format&fit=crop&w=800&q=80" alt="Football Action">
-          <span class="card-badge">Game Action</span>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">THE GRIDIRON SHOWDOWN</h3>
-          <p class="card-description">Two top-tier rivals battle line-by-line for dominance on the 50-yard line in a championship preview match.</p>
-          <a href="#" class="btn-primary">Watch Replay</a>
-        </div>
-      </article>
+          <div class="kick-ball" id="kick-ball">🏈</div>
 
-      <!-- Card 3 -->
-      <article class="nfl-card">
-        <div class="card-image-wrapper">
-          <img src="https://images.unsplash.com/photo-1628891890467-b79f2c8ba9dc?auto=format&fit=crop&w=800&q=80" alt="Official NFL Football">
-          <span class="card-badge">Equipment</span>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">THE OFFICIAL LEATHER</h3>
-          <p class="card-description">Get an up-close look at the game ball, built for precision spiral passes and clutch game-winning field goals.</p>
-          <a href="#" class="btn-primary">Read More</a>
-        </div>
-      </article>
+          <div class="aim-meter-container">
+            <div class="target-zone"></div>
+            <div class="aim-needle" id="aim-needle"></div>
+          </div>
 
-    </div>
+          <button class="btn-primary btn-game" id="btn-kick">KICK FIELD GOAL</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME 2: QB TARGET PASS -->
+    <section class="game-section" id="mini-game-2">
+      <div class="game-card">
+        <div class="game-header">
+          <h2 class="game-title">🎯 MINI-GAME 2: QB TARGET PASS</h2>
+          <div class="game-stats">
+            <span>Points: <strong id="qb-score">0</strong></span>
+            <span>Timer: <strong id="qb-timer">15s</strong></span>
+          </div>
+        </div>
+        <p class="game-instructions">Click or tap the moving target receivers on the turf before time runs out!</p>
+
+        <div class="qb-arena" id="qb-arena">
+          <div class="target-receiver" id="target-receiver">🎯</div>
+          <div class="arena-message" id="qb-start-msg">Click 'Start Challenge' to begin!</div>
+        </div>
+
+        <button class="btn-primary btn-game" id="btn-start-qb">START QB CHALLENGE</button>
+      </div>
+    </section>
+
   </main>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
       <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/National_Football_League_logo.svg" alt="NFL Shield" class="footer-logo">
-      <ul class="footer-links">
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Stadium Map</a></li>
-        <li><a href="#">Contact Us</a></li>
-      </ul>
-      <p class="copyright">&copy; 2026 Gridiron Park Stadium. All rights reserved.</p>
+      <p class="copyright">&copy; 2026 Gridiron Park Stadium Arcade. All rights reserved.</p>
     </div>
   </footer>
 
