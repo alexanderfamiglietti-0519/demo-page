@@ -19,12 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnKick = document.getElementById('btn-kick');
   const fgScoreEl = document.getElementById('fg-score');
   const fgAttemptsEl = document.getElementById('fg-attempts');
+  const cowboysScoreEl = document.getElementById('cowboys-score');
+  const gameStatusEl = document.getElementById('game-status');
 
   function startNeedle() {
     if (isNeedleMoving) return;
     isNeedleMoving = true;
     needleInterval = setInterval(() => {
-      needlePosition += 2 * needleDirection;
+      needlePosition += 2.2 * needleDirection;
       if (needlePosition >= 100) {
         needlePosition = 100;
         needleDirection = -1;
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 16);
   }
 
+  // Start oscillating aim bar on load
   startNeedle();
 
   if (btnKick) {
@@ -56,8 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (needlePosition >= 40 && needlePosition <= 60) {
         fgScore += 3;
         if (fgScoreEl) fgScoreEl.textContent = fgScore;
+        
+        // Add 3 points to Cowboys scoreboard
+        if (cowboysScoreEl) {
+          const currentScore = parseInt(cowboysScoreEl.textContent, 10) || 0;
+          cowboysScoreEl.textContent = currentScore + 3;
+          triggerScoreGlow(cowboysScoreEl);
+        }
+
+        if (gameStatusEl) gameStatusEl.textContent = "FIELD GOAL IS GOOD! (+3)";
         animateBall(true);
       } else {
+        if (gameStatusEl) gameStatusEl.textContent = "KICK NO GOOD! NO POINTS";
         animateBall(false);
       }
 
@@ -67,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
           startNeedle();
         } else {
           if (btnKick) btnKick.textContent = "PLAY AGAIN";
+          if (gameStatusEl) gameStatusEl.textContent = `FINAL KICK SCORE: ${fgScore} PTS`;
         }
       }, 1200);
     });
@@ -75,9 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function animateBall(isSuccess) {
     if (!kickBall) return;
     if (isSuccess) {
-      kickBall.style.transform = "translateY(-140px) scale(0.5)";
+      kickBall.style.transform = "translateY(-140px) scale(0.4)";
     } else {
-      kickBall.style.transform = `translate(${needlePosition < 40 ? '-100px' : '100px'}, -100px) scale(0.5) rotate(45deg)`;
+      const xDir = needlePosition < 40 ? '-120px' : '120px';
+      kickBall.style.transform = `translate(${xDir}, -100px) scale(0.4) rotate(60deg)`;
     }
   }
 
@@ -91,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fgScoreEl) fgScoreEl.textContent = fgScore;
     if (fgAttemptsEl) fgAttemptsEl.textContent = fgAttempts;
     if (btnKick) btnKick.textContent = "KICK FIELD GOAL";
+    if (gameStatusEl) gameStatusEl.textContent = "FIELD GOAL CHALLENGE READY";
     resetBallPosition();
     startNeedle();
   }
@@ -126,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (qbTimerEl) qbTimerEl.textContent = `${qbTimeLeft}s`;
     if (qbStartMsg) qbStartMsg.style.display = 'none';
     if (btnStartQb) btnStartQb.disabled = true;
+    if (gameStatusEl) gameStatusEl.textContent = "QB TARGET PASS IN PROGRESS...";
 
     moveTarget();
 
@@ -142,11 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function moveTarget() {
     if (!isGameActive || !targetReceiver || !qbArena) return;
 
-    const arenaWidth = qbArena.clientWidth - 60;
-    const arenaHeight = qbArena.clientHeight - 60;
+    const arenaWidth = qbArena.clientWidth - 70;
+    const arenaHeight = qbArena.clientHeight - 70;
 
-    const randomX = Math.floor(Math.random() * arenaWidth);
-    const randomY = Math.floor(Math.random() * arenaHeight);
+    const randomX = Math.max(10, Math.floor(Math.random() * arenaWidth));
+    const randomY = Math.max(10, Math.floor(Math.random() * arenaHeight));
 
     targetReceiver.style.left = `${randomX}px`;
     targetReceiver.style.top = `${randomY}px`;
@@ -168,13 +185,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (targetReceiver) targetReceiver.style.display = 'none';
     if (qbStartMsg) {
-      qbStartMsg.textContent = `TIME'S UP! FINAL SCORE: ${qbScore}`;
+      qbStartMsg.textContent = `TIME'S UP! FINAL SCORE: ${qbScore} PTS`;
       qbStartMsg.style.display = 'block';
     }
     if (btnStartQb) {
       btnStartQb.disabled = false;
       btnStartQb.textContent = "PLAY AGAIN";
     }
+    if (gameStatusEl) gameStatusEl.textContent = `QB CHALLENGE FINISHED (${qbScore} PTS)`;
+  }
+
+  // Smooth scrolling for navigation links
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      if (targetId && targetId.startsWith('#')) {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Scoreboard glow visual feedback
+  function triggerScoreGlow(element) {
+    element.style.color = '#ffffff';
+    element.style.textShadow = '0 0 20px #00f0ff, 0 0 30px #00f0ff';
+    setTimeout(() => {
+      element.style.color = '#00f0ff';
+      element.style.textShadow = '0 0 10px #00f0ff';
+    }, 800);
   }
 
 });
